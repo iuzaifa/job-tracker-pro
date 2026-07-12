@@ -131,7 +131,7 @@ export const JobTable: React.FC<JobTableProps> = ({
                       </a>
                       <button
                         onClick={() => handleCopyEmail(app.recruiterEmail)}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 flex-shrink-0"
                         title="Copy email"
                       >
                         <Copy size={16} />
@@ -180,70 +180,134 @@ export const JobTable: React.FC<JobTableProps> = ({
                 {expandedRowId === app.id && (
                   <tr className="bg-blue-50 border-b">
                     <td colSpan={6} className="px-6 py-4">
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                        {/* Job Details */}
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">Job Details</h4>
-                          <div className="space-y-2 text-sm">
+                          <h4 className="font-semibold text-gray-900 mb-3 text-lg">📋 Job Details</h4>
+                          <div className="space-y-2 text-sm bg-white p-4 rounded-lg border border-gray-200">
                             <p>
-                              <span className="font-semibold text-gray-700">Location:</span> {app.jobLocation}
+                              <span className="font-semibold text-gray-700">Company:</span>
+                              <span className="ml-2 text-gray-600">{app.companyName}</span>
                             </p>
                             <p>
-                              <span className="font-semibold text-gray-700">Experience:</span> {app.experienceRequired}
+                              <span className="font-semibold text-gray-700">Position:</span>
+                              <span className="ml-2 text-gray-600">{app.jobTitle}</span>
                             </p>
                             <p>
-                              <span className="font-semibold text-gray-700">Company Website:</span>
-                              {app.companyWebsite && (
-                                <a href={app.companyWebsite} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2">
+                              <span className="font-semibold text-gray-700">Location:</span>
+                              <span className="ml-2 text-gray-600">{app.jobLocation || 'N/A'}</span>
+                            </p>
+                            <p>
+                              <span className="font-semibold text-gray-700">Experience:</span>
+                              <span className="ml-2 text-gray-600">{app.experienceRequired || 'N/A'}</span>
+                            </p>
+                            <p>
+                              <span className="font-semibold text-gray-700">Status:</span>
+                              <span className={`ml-2 px-2 py-1 rounded text-xs font-semibold ${getStatusColor(app.applicationStatus)}`}>
+                                {app.applicationStatus}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="font-semibold text-gray-700">Applied Date:</span>
+                              <span className="ml-2 text-gray-600">{app.applicationDate}</span>
+                            </p>
+                            {app.companyWebsite && (
+                              <p>
+                                <span className="font-semibold text-gray-700">Website:</span>
+                                <a
+                                  href={app.companyWebsite}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ml-2 text-blue-600 hover:underline break-all"
+                                >
                                   Visit
                                 </a>
-                              )}
-                            </p>
-                            <p>
-                              <span className="font-semibold text-gray-700">Job URL:</span>
-                              {app.jobUrl && (
-                                <a href={app.jobUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2">
+                              </p>
+                            )}
+                            {app.jobUrl && (
+                              <p>
+                                <span className="font-semibold text-gray-700">Job Link:</span>
+                                <a
+                                  href={app.jobUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ml-2 text-blue-600 hover:underline break-all"
+                                >
                                   View Job
                                 </a>
-                              )}
-                            </p>
+                              </p>
+                            )}
                           </div>
                         </div>
+
+                        {/* Recruiter Details */}
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3">Recruiter Details</h4>
-                          <div className="space-y-2 text-sm">
+                          <h4 className="font-semibold text-gray-900 mb-3 text-lg">👤 Recruiter Details</h4>
+                          <div className="space-y-2 text-sm bg-white p-4 rounded-lg border border-gray-200">
                             <p>
-                              <span className="font-semibold text-gray-700">Name:</span> {app.recruiterName}
+                              <span className="font-semibold text-gray-700">Name:</span>
+                              <span className="ml-2 text-gray-600">{app.recruiterName || 'N/A'}</span>
                             </p>
                             <p>
                               <span className="font-semibold text-gray-700">Email:</span>
-                              <a href={`mailto:${app.recruiterEmail}`} className="text-blue-600 hover:underline ml-2">
+                              <a
+                                href={`mailto:${app.recruiterEmail}`}
+                                className="ml-2 text-blue-600 hover:underline font-semibold break-all"
+                              >
                                 {app.recruiterEmail}
                               </a>
                             </p>
                             {app.recruiterLinkedIn && (
                               <p>
                                 <span className="font-semibold text-gray-700">LinkedIn:</span>
-                                <a href={app.recruiterLinkedIn} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline ml-2">
-                                  Profile
+                                <a
+                                  href={app.recruiterLinkedIn}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ml-2 text-blue-600 hover:underline break-all"
+                                >
+                                  View Profile
                                 </a>
+                              </p>
+                            )}
+                            {app.hrContactNumber && (
+                              <p>
+                                <span className="font-semibold text-gray-700">Phone:</span>
+                                <span className="ml-2 text-gray-600">{app.hrContactNumber}</span>
                               </p>
                             )}
                           </div>
                         </div>
                       </div>
-                      <div className="mt-4 p-4 bg-white rounded border border-gray-200">
-                        <h4 className="font-semibold text-gray-900 mb-2">Email Content</h4>
-                        <div className="space-y-2 text-sm">
-                          <p>
-                            <span className="font-semibold text-gray-700">Subject:</span> {app.emailSubject}
-                          </p>
-                          <div className="bg-gray-100 p-3 rounded max-h-32 overflow-y-auto">
-                            <pre className="text-xs whitespace-pre-wrap text-gray-700">
-                              {app.emailBody}
-                            </pre>
+
+                      {/* Email Content */}
+                      <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+                        <h4 className="font-semibold text-gray-900 mb-3 text-lg">✉️ Email Content</h4>
+                        <div className="space-y-3">
+                          <div>
+                            <p className="font-semibold text-gray-700 mb-1">Subject:</p>
+                            <p className="bg-gray-100 p-3 rounded text-sm text-gray-800 break-words">
+                              {app.emailSubject}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-700 mb-1">Body:</p>
+                            <div className="bg-gray-100 p-3 rounded max-h-48 overflow-y-auto">
+                              <pre className="text-xs whitespace-pre-wrap text-gray-700 font-sans">
+                                {app.emailBody}
+                              </pre>
+                            </div>
                           </div>
                         </div>
                       </div>
+
+                      {/* Notes */}
+                      {app.notes && (
+                        <div className="mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                          <h4 className="font-semibold text-gray-900 mb-2">📝 Notes</h4>
+                          <p className="text-sm text-gray-700">{app.notes}</p>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 )}
